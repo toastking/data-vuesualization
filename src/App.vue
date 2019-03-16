@@ -8,7 +8,7 @@
     <select id="ycol" v-model="yCol">
       <option v-for="col of Object.keys(cols)" v-bind:key="col" v-bind:value="col">{{ cols[col] }}</option>
     </select>
-    <BarChart v-bind:chartdata="getChartData()" v-bind:options="chartOptions"/>
+    <BarChart v-bind:chartData="chartdata" v-bind:options="chartoptions"/>
   </div>
 </template>
 
@@ -34,10 +34,9 @@ export default {
       'hoursSlept':'Number of Hours Slept',
       'coffeeDrank':'Cups of Coffee Consumed'
     },
-   chartOptions:{}
   }),
-  methods:{
-    getChartData: function(){
+  computed:{
+    chartdata: function(){
       //make an array with all the keys we need 
       //then map it to the data to get the column at that index
       //to make something with shape [{col1:....,col2:....}....]
@@ -53,17 +52,29 @@ export default {
       .map(makeDataItem);
 
       return {
-        chartData:{
           datasets: [{
               label: this.cols[this.yCol],
               data: chartDataSet,
               backgroundColor:0x7ceacd,
           }]
-        }
       };
     },
- 
+    chartoptions:function(){
+      return {
 
+        scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              displayFormats:{
+                day : 'DD MM YYYY'
+              },
+              unit: 'day'
+            }
+          }]
+        }
+      };
+    }
     }
 }
 </script>
