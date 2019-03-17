@@ -37,18 +37,13 @@ export default {
   }),
   computed:{
     chartdata: function(){
-      //make an array with all the keys we need 
-      //then map it to the data to get the column at that index
-      //to make something with shape [{col1:....,col2:....}....]
-      //make an array with the keys then make a dataitem for each index
-      let x = this.dataset[this.xCol];
-      let y = this.dataset[this.yCol];
-
+      //Get the x axis (labels) and y axis (data) for the chart
+      //based on the columns from the dropdowns
       return {
-        labels: x,
+        labels: this.dataset[this.xCol],
           datasets: [{
               label:`${this.cols[this.yCol]} vs ${this.cols[this.xCol]}`,
-              data: y,
+              data: this.dataset[this.yCol],
               backgroundColor:'#0868ad',
           }]
       };
@@ -70,7 +65,7 @@ export default {
       options.scales.xAxes[0].type = this.xCol == 'date' ? 'time' : 'category';
       return options;
     }
-    }
+  }
 }
 </script>
 
