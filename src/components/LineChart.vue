@@ -10,7 +10,7 @@
         mixins: [reactiveProp],
         mounted () {
             //render the ChartJS chart on mount
-            this.renderChart(this.chartData, this.options)
+            this.renderChart(this.chartData, this.options);
         }
     }
 </script>

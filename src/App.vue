@@ -19,8 +19,7 @@
         <component v-bind:is="chartType" v-bind:chartData="chartdata" v-bind:options="chartoptions"/>
       </div>
       <div class="chart-type">
-        <button v-on:click="chartType = 'BarChart'">Bar</button>
-        <button v-on:click="chartType = 'LineChart'">Line</button>
+        <button v-for="(text,type) of chartTypes" v-bind:key="type" v-on:click="chartType = type">{{ text }}</button>
       </div>
     </div>
   </div>
@@ -28,7 +27,7 @@
 
 <script>
 import BarChart from './components/BarChart.vue';
-import LineChart from './components/BarChart.vue';
+import LineChart from './components/LineChart.vue';
 
 export default {
   name: 'app',
@@ -38,6 +37,10 @@ export default {
   },
   data: ()=>({
     chartType:'BarChart',
+    chartTypes:{
+      'BarChart':'Bar',
+      'LineChart':'Line',
+    },
     dataset:{
     'date':['2019-03-01','2019-03-02','2019-03-03','2019-03-04','2019-03-05','2019-03-06','2019-03-07'],
     'dogsSeen':[1,2,3,10,5,7,9],
@@ -63,6 +66,8 @@ export default {
               label:`${this.cols[this.yCol]} vs ${this.cols[this.xCol]}`,
               data: this.dataset[this.yCol],
               backgroundColor:'#0868ad',
+              borderColor:'#0868ad',
+              fill:false,
           }]
       };
     },
@@ -73,11 +78,16 @@ export default {
           xAxes: [{
             time: {
               displayFormats:{
-                day : 'DD/MM/YYYY'
+                day : 'MM/DD/YYYY'
               },
               unit: 'day'
             }
-          }]
+          }],
+          yAxes: [{
+            ticks: {
+              beginAtZero: true, 
+            }
+          }],
         }
       };
       options.scales.xAxes[0].type = this.xCol == 'date' ? 'time' : 'category';
