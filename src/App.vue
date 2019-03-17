@@ -19,7 +19,7 @@
         <component v-bind:is="chartType" v-bind:chartData="chartdata" v-bind:options="chartoptions"/>
       </div>
       <div class="chart-type">
-        <button v-for="(text,type) of chartTypes" v-bind:key="type" v-on:click="chartType = type">{{ text }}</button>
+        <button v-for="(text,type) of chartTypes" v-bind:class="['chart-type-button',{ active: chartType == type }]" v-bind:key="type" v-on:click="chartType = type">{{ text }}</button>
       </div>
     </div>
   </div>
@@ -106,8 +106,8 @@ export default {
   display:flex;
   flex-direction: column;
   padding:1em;
-  width:100vw;
-  height:100vh;
+  width:90vw;
+  height:90vh;
 }
 
 .cols-dropdowns {
@@ -137,11 +137,30 @@ export default {
 
 .chart-area .chart-type{
   flex:1;
+  flex-direction: column;
   padding:1em;
 }
 
-.chart-area .chart-type button{
+/* style the buttons*/
+.chart-area .chart-type .chart-type-button{
   background:white;
+  border-radius: .1em;
+  border: 1px solid #35495e;
+  padding: .5em;
+  margin-top:.5em;
+  margin-bottom:.5em;
+  font-size:1.5em;
+  display:block;
+  flex:1;
+  width:100%;
+  cursor:pointer;
+}
+
+
+.chart-area .chart-type .chart-type-button.active{
+  background:#41b883;
+  color:white;
+  border:white;
 }
 
 </style>
