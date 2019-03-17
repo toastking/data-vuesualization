@@ -1,25 +1,43 @@
 <template>
   <div id="app">
-    <label for="xcol"> X column </label>
-    <select id="xcol" v-model="xCol">
-      <option v-for="col of Object.keys(cols)" v-bind:key="col" v-bind:value="col">{{ cols[col] }}</option>
-    </select>
-    <label for="ycol"> Y column </label>
-    <select id="ycol" v-model="yCol">
-      <option v-for="col of Object.keys(cols)" v-bind:key="col" v-bind:value="col">{{ cols[col] }}</option>
-    </select>
-    <BarChart v-bind:chartData="chartdata" v-bind:options="chartoptions"/>
+    <div class="cols-dropdowns">
+      <!-- Dropdowns to select the columns to chart -->
+      <label for="xcol"> X column </label>
+      <select id="xcol" v-model="xCol">
+        <option v-for="col of Object.keys(cols)" v-bind:key="col" v-bind:value="col">{{ cols[col] }}</option>
+      </select>
+
+      <label for="ycol"> Y column </label>
+      <select id="ycol" v-model="yCol">
+        <option v-for="col of Object.keys(cols)" v-bind:key="col" v-bind:value="col">{{ cols[col] }}</option>
+      </select>
+    </div>
+
+    <!-- The different charts-->
+    <div class="chart-area">
+      <div class="chart">
+        <component v-bind:is="chartType" v-bind:chartData="chartdata" v-bind:options="chartoptions"/>
+      </div>
+      <div class="chart-type">
+        <button v-on:click="chartType = 'BarChart'">Bar</button>
+        <button v-on:click="chartType = 'LineChart'">Line</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import BarChart from './components/BarChart.vue';
+import LineChart from './components/BarChart.vue';
+
 export default {
   name: 'app',
   components: {
-    BarChart
+    BarChart,
+    LineChart
   },
   data: ()=>({
+    chartType:'BarChart',
     dataset:{
     'date':['2019-03-01','2019-03-02','2019-03-03','2019-03-04','2019-03-05','2019-03-06','2019-03-07'],
     'dogsSeen':[1,2,3,10,5,7,9],
@@ -74,8 +92,46 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  display:flex;
+  flex-direction: column;
+  padding:1em;
+  width:100vw;
+  height:100vh;
 }
+
+.cols-dropdowns {
+  display:flex;
+  margin-left:auto;
+  margin-right: auto;
+  flex-direction: row;
+  padding:1em;
+}
+
+.cols-dropdowns #xcol{
+  margin-right:1.5em;
+}
+
+.cols-dropdowns label{
+  margin-right:.25em;
+}
+
+.chart-area{
+  display:flex;
+  flex-direction: row;
+}
+
+.chart-area .chart{
+  flex:3;
+}
+
+.chart-area .chart-type{
+  flex:1;
+  padding:1em;
+}
+
+.chart-area .chart-type button{
+  background:white;
+}
+
 </style>
