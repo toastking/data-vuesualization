@@ -28,18 +28,24 @@
 <script>
 import BarChart from './components/BarChart.vue';
 import LineChart from './components/LineChart.vue';
+import ScatterChart from './components/ScatterChart.vue';
+import PieChart from './components/PieChart.vue';
 
 export default {
   name: 'app',
   components: {
     BarChart,
-    LineChart
+    LineChart,
+    ScatterChart,
+    PieChart
   },
   data: ()=>({
     chartType:'BarChart',
     chartTypes:{
       'BarChart':'Bar',
       'LineChart':'Line',
+      'ScatterChart':'Scatter',
+      'PieChart':'Pie',
     },
     dataset:{
     'date':['2019-03-01','2019-03-02','2019-03-03','2019-03-04','2019-03-05','2019-03-06','2019-03-07'],
@@ -85,7 +91,7 @@ export default {
           }],
           yAxes: [{
             ticks: {
-              beginAtZero: true, 
+              beginAtZero: this.chartType == 'BarChart', 
             }
           }],
         }
