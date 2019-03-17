@@ -1,13 +1,15 @@
 <script>
+    //Import the Bar component to extend
     import {Bar,mixins} from 'vue-chartjs';
-    const { reactiveProp } = mixins;
+    // mixin to make the chartData prop reactive
+    const { reactiveProp } = mixins; 
 
     export default {
         extends:Bar,
         props:['options'],
         mixins: [reactiveProp],
         mounted () {
-            console.log(this.chartData);
+            //render the ChartJS chart on mount
             this.renderChart(this.chartData, this.options)
         }
     }

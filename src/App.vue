@@ -40,40 +40,35 @@ export default {
       //make an array with all the keys we need 
       //then map it to the data to get the column at that index
       //to make something with shape [{col1:....,col2:....}....]
-      const makeDataItem = (keys,idx)=>({
-        'x':this.dataset[keys[0]][idx],
-        'y':this.dataset[keys[1]][idx]
-      });
       //make an array with the keys then make a dataitem for each index
-      let firstCol = Object.keys(this.dataset)[0];
-      let dataLength = (firstCol) ? this.dataset[firstCol].length : 0;
-      let chartDataSet = new Array(dataLength)
-      .fill([this.xCol,this.yCol])
-      .map(makeDataItem);
+      let x = this.dataset[this.xCol];
+      let y = this.dataset[this.yCol];
 
       return {
+        labels: x,
           datasets: [{
-              label: this.cols[this.yCol],
-              data: chartDataSet,
-              backgroundColor:0x7ceacd,
+              label:`${this.cols[this.yCol]} vs ${this.cols[this.xCol]}`,
+              data: y,
+              backgroundColor:'#0868ad',
           }]
       };
     },
     chartoptions:function(){
-      return {
-
+      let options = {
+        responsive:true,
         scales: {
           xAxes: [{
-            type: 'time',
             time: {
               displayFormats:{
-                day : 'DD MM YYYY'
+                day : 'DD/MM/YYYY'
               },
               unit: 'day'
             }
           }]
         }
       };
+      options.scales.xAxes[0].type = this.xCol == 'date' ? 'time' : 'category';
+      return options;
     }
     }
 }
