@@ -19,17 +19,25 @@
         <component v-bind:is="chartType" v-bind:chartData="chartdata" v-bind:options="chartoptions"/>
       </div>
       <div class="chart-type">
-        <button v-for="(text,type) of chartTypes" v-bind:class="['chart-type-button',{ active: chartType == type }]" v-bind:key="type" v-on:click="chartType = type">{{ text }}</button>
+        <button v-for="(text,type) of chartTypes" 
+        v-bind:class="['chart-type-button',{ active: chartType == type }]" 
+        v-bind:key="type" 
+        v-on:click="chartType = type">
+          {{ text }}
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import patternomaly from 'patternomaly';
 import BarChart from './components/BarChart.vue';
 import LineChart from './components/LineChart.vue';
 import ScatterChart from './components/ScatterChart.vue';
 import PieChart from './components/PieChart.vue';
+
+const chartColors = ['#41b883','#35495e','#54457f','#f5ee9e','#fe5f55','#ea8c55','#5f0f40'];
 
 export default {
   name: 'app',
@@ -71,7 +79,7 @@ export default {
           datasets: [{
               label:`${this.cols[this.yCol]} vs ${this.cols[this.xCol]}`,
               data: this.dataset[this.yCol],
-              backgroundColor:'#0868ad',
+              backgroundColor: patternomaly.generate(chartColors),
               borderColor:'#0868ad',
               fill:false,
           }]
