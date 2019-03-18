@@ -112,6 +112,11 @@ export default {
 </script>
 
 <style>
+body{
+  padding:0;
+  margin:0;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -120,8 +125,9 @@ export default {
   display:flex;
   flex-direction: column;
   padding:1em;
-  width:90vw;
-  height:90vh;
+  width:100vw;
+  height:100vh;
+  box-sizing: border-box;
 }
 
 .cols-dropdowns {
