@@ -3,7 +3,7 @@ This is the example code for a presentation on data visualization for VueJS done
 
 Here's how it looks in action:
 
-<img src='https://i.imgur.com/6UHjYvA.gifv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/6UHjYvA.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 ## Project setup
