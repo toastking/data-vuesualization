@@ -57,7 +57,7 @@ export default {
     },
     dataset:{
     'date':['2019-03-01','2019-03-02','2019-03-03','2019-03-04','2019-03-05','2019-03-06','2019-03-07'],
-    'dogsSeen':[1,2,3,10,5,7,9],
+    'dogsSeen':[2,2,2,2,3,2,2],
     'hoursSlept':[5.5,7.2,8,6.75,7.5,8,7.3],
     'coffeeDrank':[4,2,3,2,3,4,2]
     },
@@ -74,28 +74,39 @@ export default {
     chartdata: function(){
       //Get the x axis (labels) and y axis (data) for the chart
       //based on the columns from the dropdowns
-      return {
-        labels: this.dataset[this.xCol],
+      let datapoints = null;
+      const dataSet = {
           datasets: [{
               label:`${this.cols[this.yCol]} vs ${this.cols[this.xCol]}`,
-              data: this.dataset[this.yCol],
               backgroundColor: patternomaly.generate(chartColors),
               borderColor:'#0868ad',
               fill:false,
           }]
       };
+
+      if(this.chartType == 'ScatterChart'|| this.chartType == 'LineChart'){
+        //make the data into points 
+        //and sort them so the x axis increases
+        datapoints = [];
+        for(let i = 0; i < this.dataset[this.xCol].length; i++){
+          datapoints.push({ 'x':this.dataset[this.xCol][i], 'y': this.dataset[this.yCol][i] });
+        }
+        dataSet.datasets[0].data = datapoints.sort((d1,d2)=>(d1.x-d2.x));
+      }else{
+        //otherwise pass in arrays
+        dataSet.labels= this.dataset[this.xCol];
+        dataSet.datasets[0].data = this.dataset[this.yCol];
+      }
+
+      return dataSet;
     },
     chartoptions:function(){
-      let options = {
+        let options = {
         responsive:true,
+        maintainAspectRatio:false,
         scales: {
           xAxes: [{
-            time: {
-              displayFormats:{
-                day : 'MM/DD/YYYY'
-              },
-              unit: 'day'
-            }
+            
           }],
           yAxes: [{
             ticks: {
@@ -104,7 +115,18 @@ export default {
           }],
         }
       };
-      options.scales.xAxes[0].type = this.xCol == 'date' ? 'time' : 'category';
+
+      if(this.xCol == 'date'){
+        options.scales.xAxes[0].type = 'time';
+        options.scales.xAxes[0].time= {
+              displayFormats:{
+                day : 'MM/DD/YYYY'
+              },
+              unit: 'day'
+            };
+      }else if(this.chartType == 'LineChart'  || this.chartType == 'ScatterChart'){
+        options.scales.xAxes[0].type='linear';
+      }
       return options;
     }
   }
@@ -153,6 +175,7 @@ body{
 
 .chart-area .chart{
   flex:3;
+  max-height:90vh;
 }
 
 .chart-area .chart-type{
