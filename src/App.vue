@@ -57,8 +57,8 @@ export default {
     },
     dataset:{
     'date':['2019-03-01','2019-03-02','2019-03-03','2019-03-04','2019-03-05','2019-03-06','2019-03-07'],
-    'dogsSeen':[2,2,2,2,3,2,2],
-    'hoursSlept':[5.5,7.2,8,6.75,7.5,8,7.3],
+    'dogsSeen':[20,21,22,21,22,21,20],
+    'hoursSlept':[5.5,9,7.2,6.75,7.5,7.25,7.3],
     'coffeeDrank':[4,2,3,2,3,4,2]
     },
     xCol:'date',
@@ -101,13 +101,11 @@ export default {
       return dataSet;
     },
     chartoptions:function(){
-        let options = {
+      let options = {
         responsive:true,
         maintainAspectRatio:false,
         scales: {
-          xAxes: [{
-            
-          }],
+          xAxes: [{}],
           yAxes: [{
             ticks: {
               beginAtZero: this.chartType == 'BarChart', 
@@ -117,14 +115,18 @@ export default {
       };
 
       if(this.xCol == 'date'){
-        options.scales.xAxes[0].type = 'time';
-        options.scales.xAxes[0].time= {
-              displayFormats:{
-                day : 'MM/DD/YYYY'
-              },
-              unit: 'day'
-            };
+        //special case the date column to handle time axes
+        options.scales.xAxes[0] = Object.assign(options.scales.xAxes[0],{
+          type:'time',
+          time:{
+            displayFormats:{
+              day : 'MM/DD/YYYY'
+            },
+            unit: 'day'
+          }
+        });
       }else if(this.chartType == 'LineChart'  || this.chartType == 'ScatterChart'){
+        //special case the line/scatter plot to have a linear axis
         options.scales.xAxes[0].type='linear';
       }
       return options;
